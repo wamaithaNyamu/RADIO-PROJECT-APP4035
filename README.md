@@ -1,7 +1,7 @@
-# RADIO-PROJECT-APP4035
+# RADIO-PROJECT-APP4035\
 
-# Start
+### Start\
 
-Development:
-cd src
-npm run dev
+**Development:** \
+_cd src_ \
+_npm run dev_\
