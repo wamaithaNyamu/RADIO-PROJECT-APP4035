@@ -6,6 +6,8 @@ const colors = require("colors");
 const cors = require("cors");
 const { json } = require("express");
 
+const db = require("./db/db");
+
 // import route files
 
 // App config
@@ -22,7 +24,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Connect to Database
-
+db();
 // Mount routers
 
 const PORT = process.env.PORT;
