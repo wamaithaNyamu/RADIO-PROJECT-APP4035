@@ -9,7 +9,7 @@ const { json } = require("express");
 const db = require("./db/db");
 
 // import route files
-
+const routes = require("./routes/song");
 // App config
 dotenv.config({
   path: "config/.env",
@@ -17,7 +17,6 @@ dotenv.config({
 // Initialize app
 const app = express();
 app.use(cors());
-app.use(json());
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -26,7 +25,7 @@ if (process.env.NODE_ENV === "development") {
 // Connect to Database
 db();
 // Mount routers
-
+app.use("/api/", routes);
 const PORT = process.env.PORT;
 
 // Listen on HTTP
