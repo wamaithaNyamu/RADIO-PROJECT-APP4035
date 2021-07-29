@@ -17,6 +17,7 @@ dotenv.config({
 // Initialize app
 const app = express();
 app.use(cors());
+app.use(json());
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
