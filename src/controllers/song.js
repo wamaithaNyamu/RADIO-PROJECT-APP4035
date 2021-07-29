@@ -17,8 +17,10 @@ exports.read = async (req, res, next) => {
       data: songs,
     });
   } catch (err) {
+    //log to console
     console.log(err);
-    res.status().json({
+    // bad request
+    res.status(400).json({
       success: false,
       error: err,
     });
