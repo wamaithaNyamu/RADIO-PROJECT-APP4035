@@ -9,12 +9,20 @@ const Song = require("../models/Song");
 // @route  GET /api/songs
 // @access Public
 exports.read = async (req, res, next) => {
-  const songs = await Song.find();
+  try {
+    const songs = await Song.find();
 
-  res.status(200).json({
-    success: true,
-    data: songs,
-  });
+    res.status(200).json({
+      success: true,
+      data: songs,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status().json({
+      success: false,
+      error: err,
+    });
+  }
 };
 
 // @desc   Update a song
