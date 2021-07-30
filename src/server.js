@@ -7,6 +7,7 @@ const cors = require("cors");
 const { json } = require("express");
 
 const db = require("./db/db");
+const errorHandler = require("./middleware/error");
 
 // import route files
 const routes = require("./routes/song");
@@ -17,6 +18,7 @@ dotenv.config({
 // Initialize app
 const app = express();
 app.use(cors());
+app.use(json());
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -26,6 +28,9 @@ if (process.env.NODE_ENV === "development") {
 db();
 // Mount routers
 app.use("/api/", routes);
+
+app.use(errorHandler);
+
 const PORT = process.env.PORT;
 
 // Listen on HTTP
