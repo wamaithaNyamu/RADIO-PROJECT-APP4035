@@ -1,4 +1,8 @@
 import Stars from "./Components/Stars";
+import Rating from "./Components/Rating";
+import SortRating from "./Components/SortRating";
+import { Form, Input, Select, Button } from 'antd';
+import 'antd/dist/antd.css';
 
 function App() {
   return (
@@ -10,10 +14,10 @@ function App() {
         <Stars value={5} text={'Great'}/>
         <Stars value={2} text={'Meow'}/>
         <Stars value={3} text={'Hey'}/>
+    <br/>
+        <Rating/>
+        <SortRating/>
 
-        <div>
-            <button>5 STAR RATING SONGS</button>
-        </div>
     </div>
   );
 }
