@@ -27,6 +27,50 @@ exports.read = async (req, res, next) => {
   }
 };
 
+// @desc   Read all songs with 5 stars
+// @route  GET /api/stars
+// @access Public
+exports.stars = async (req, res, next) => {
+  try {
+    const songs = await Song.find().where('rating').equals(5);
+
+    res.status(200).json({
+      success: true,
+      data: songs,
+    });
+  } catch (err) {
+    //log to console
+    console.log(err);
+    // bad request
+    res.status(400).json({
+      success: false,
+      error: err,
+    });
+  }
+};
+
+// @desc   Read all songs with 5 stars
+// @route  GET /api/rate/:songID
+// @access Public
+exports.stars = async (req, res, next) => {
+  try {
+    const songs = await Song.find().where('rating').equals(5);
+
+    res.status(200).json({
+      success: true,
+      data: songs,
+    });
+  } catch (err) {
+    //log to console
+    console.log(err);
+    // bad request
+    res.status(400).json({
+      success: false,
+      error: err,
+    });
+  }
+};
+
 // @desc   Update a song
 // @route  PUT /api/songs/:id
 // @access Public

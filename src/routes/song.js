@@ -1,8 +1,9 @@
 const router = require("express").Router();
-const Song = require("../models/Song");
-const { read } = require("../controllers/song");
+const { read ,stars} = require("../controllers/song");
 
 // Read all songs
 router.route("/songs").get(read);
+router.route("/rating").get(stars);
+router.route("/rate/:songID").get(stars);
 
 module.exports = router;
