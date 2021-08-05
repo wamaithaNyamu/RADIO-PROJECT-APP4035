@@ -1,6 +1,3 @@
-import Stars from "./Components/Stars";
-import Rating from "./Components/Rating";
-import SortRating from "./Components/SortRating";
 import Playing from "./Components/Playing";
 import Song from "./Components/Song";
 import "antd/dist/antd.css";
@@ -50,6 +47,7 @@ function App() {
 
   useEffect(() => {
     initData(setData);
+    setPlaying(data ? data[0] : '' )
   }, []);
 
   const showModal = () => {

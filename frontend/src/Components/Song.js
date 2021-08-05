@@ -72,6 +72,7 @@ const Song = ({ list, onPlay }) => {
   };
   return (
     <>
+
       <List
         bordered
         style={{ width: "90%" }}
@@ -104,7 +105,7 @@ const Song = ({ list, onPlay }) => {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  <Avatar src="https://source.unsplash.com/user/erondu/1600x900" />
                 }
                 title={
                   <a
