@@ -9,6 +9,10 @@ const SongSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add the song artist"],
   },
+  genre: {
+    type: String,
+    required: [true, "Please add a genre"],
+  },
   rating: {
     type: Number,
     max: 5,
