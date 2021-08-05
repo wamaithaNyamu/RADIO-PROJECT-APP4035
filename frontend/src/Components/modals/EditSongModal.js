@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import SongForm from '../forms/SongForm';
 import ModalComponent from '../ModalComponent';
 import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
 
-function EditSongModal({ onClose, isOpen, song, songs }) {
+function EditSongModal({ onClose, isOpen, song, songs=[], setSongs }) {
+  const toast = useToast();
+
   const [value, setValue] = useState({
     title: song?.title,
     artist: song?.artist,
@@ -28,7 +31,8 @@ function EditSongModal({ onClose, isOpen, song, songs }) {
         config
       );
 
-      songs.length &&
+      const updates =
+        songs.length &&
         songs.map((song) => {
           if (song._id === data.song._id) {
             song = data.song;
@@ -36,10 +40,23 @@ function EditSongModal({ onClose, isOpen, song, songs }) {
           return song;
         });
 
+      setSongs(updates);
       setLoading(false);
+
+      onClose();
+      window.location.reload();
     } catch (error) {
+      console.log(error);
       setLoading(false);
-      throw new Error(error);
+      toast({
+        title: 'Error Alert',
+        description: 'Something went wrong, try again',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+      onClose();
+      return;
     }
   }
   return (

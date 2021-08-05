@@ -7,13 +7,16 @@ import {
   Image,
   useDisclosure,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 import DeleteModal from './DeleteModal';
 import EditSongModal from './modals/EditSongModal';
 
-function SongListItems({ songs, song }) {
+function SongListItems({ songs, song, setSongs }) {
+  const toast = useToast();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: delOpen,
@@ -25,21 +28,40 @@ function SongListItems({ songs, song }) {
 
   const deleteSong = async (id) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const config = { headers: { 'Content-Type': 'application/json' } };
-      const { data = {} } = await axios.delete(`/api/songs/${id}`, config);
+      await axios.delete(`/api/songs/${id}`, config);
 
-      songs.length && songs.filter((item) => item._id !== data.song._id);
+      const filtered = songs.length && songs.filter((item) => item._id !== id);
 
-      setLoading(false)
+      console.log(filtered);
+
+      setSongs(filtered);
+      setLoading(false);
+      closeDel();
     } catch (error) {
-      setLoading(false)
-      throw new Error(error);
+      setLoading(false);
+      toast({
+        title: 'Error Alert',
+        description: 'Something went wrong, try again',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+      closeDel();
+      return;
     }
   };
   return (
     <>
-      <DeleteModal isOpen={delOpen} onClose={closeDel} label='Delete song' />
+      <DeleteModal
+        isOpen={delOpen}
+        onClose={closeDel}
+        label='Delete song'
+        loading={loading}
+        delFunc={deleteSong}
+        id={song?._id}
+      />
       <EditSongModal isOpen={isOpen} onClose={onClose} song={song} />
       <Box
         height='auto'
@@ -66,7 +88,7 @@ function SongListItems({ songs, song }) {
           justifyContent='space-between'
           height='100%'>
           <VStack alignItems='flex-start' justifyContent='flex-start'>
-            <Heading size='lg'>{song?.title}</Heading>
+            <Heading fontSize='1.5rem'>{song?.title}</Heading>
             <Text color='#444' fontSize='1.2rem'>
               Artist &bull; {song?.artist}
             </Text>
@@ -84,6 +106,7 @@ function SongListItems({ songs, song }) {
               width='auto'
               minWidth='20%'
               onClick={onOpen}
+              fontSize='0.9rem'
               borderRadius='10px'
               colorScheme='blue'>
               Edit
@@ -93,6 +116,7 @@ function SongListItems({ songs, song }) {
               <Button
                 height='3rem'
                 width='auto'
+                fontSize='0.9rem'
                 minWidth='20%'
                 onClick={openDel}
                 borderRadius='10px'>
@@ -102,9 +126,9 @@ function SongListItems({ songs, song }) {
                 height='3rem'
                 width='auto'
                 minWidth='20%'
-                onClick={onOpen}
+                fontSize='0.9rem'
                 borderRadius='10px'
-                colorScheme='blue'>
+                colorScheme='teal'>
                 Add rating
               </Button>
             </HStack>

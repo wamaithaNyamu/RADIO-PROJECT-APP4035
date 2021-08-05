@@ -1,43 +1,60 @@
-import Stars from "./Components/Stars";
-import Rating from "./Components/Rating";
-import SortRating from "./Components/SortRating";
-import Search from "./Components/Search";
-import Song from "./Components/Song";
-import { Button } from "antd";
-
-
+import { useState, useEffect, useCallback } from 'react';
+import { Box, Center, Heading, Image } from '@chakra-ui/react';
 import 'antd/dist/antd.css';
+import ControlBar from './Components/ControlBar';
+import axios from 'axios';
+import SongList from './Components/SongList';
 
 function App() {
-  return (
-    <div className="App" align="center">
-      
-        <Stars value={5} text={'Great'}/>
-        <Stars value={3} text={'Meh'}/>
-        <Stars value={2} text={'Nada'}/>
-        <Stars value={1} text={'Zii'}/>
-        <Stars value={5} text={'Great'}/>
-        <Stars value={2} text={'Meow'}/>
-        <Stars value={3} text={'Hey'}/>
-    <br/>
-    
-    <Search/>
-        <br></br>
-        
-            <Button type="primary">create </Button>
-       <Button danger type="primary">delete</Button>
-       <Button loading type="default">Update</Button>
-        
-     
-       <br></br>
-       <br></br>
-        <Song/>
-        <Rating/>
-        <SortRating/>
+  // fetch songs
+  const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-   
-        
-    </div>
+  const fetchSongs = useCallback(async () => {
+    try {
+      const config = { headers: { 'Content-Type': 'application/json' } };
+      setLoading(true);
+      const { data = {} } = await axios.get('/api/songs/', config);
+      setSongs(data.songs);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSongs();
+  }, [fetchSongs]);
+
+  return (
+    <Box>
+      <Box width='100%' height='40vh'>
+        <Image
+          src='/images/hero.jpg'
+          alt='hero'
+          objectFit='cover'
+          width='100%'
+          height='100%'
+          objectPosition='center'
+        />
+      </Box>
+      <Box width={['100%', '100%', '90%', '80%']} mx='auto' my='1rem'>
+        <ControlBar songs={songs} setSongs={setSongs} />
+        <SongList songs={songs} setSongs={setSongs} />
+
+        {!songs.length && loading && (
+          <Center alignItems='center' justifyContent='center'>
+            <Heading size='md'>Loading ....</Heading>
+          </Center>
+        )}
+        {!songs.length && !loading && (
+          <Center alignItems='center' justifyContent='center'>
+            <Heading size='md'>No songs available</Heading>
+          </Center>
+        )}
+      </Box>
+    </Box>
   );
 }
 

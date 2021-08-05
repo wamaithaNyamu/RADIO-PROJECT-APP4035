@@ -9,11 +9,16 @@ import {
 import React from 'react';
 import AddSongModal from './modals/AddSongModal';
 
-function ControlBar() {
+function ControlBar({ songs, setSongs }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <>
-      <AddSongModal isOpen={isOpen} onClose={onClose} />
+      <AddSongModal
+        isOpen={isOpen}
+        onClose={onClose}
+        songs={songs}
+        setSongs={setSongs}
+      />
       <Box
         height='10vh'
         padding='10px'
