@@ -66,6 +66,7 @@ function App() {
     if (data.success === true) {
       setVisible(false);
       setConfirmLoading(false);
+      initData(setData);
     }
   };
   const handleCancel = () => {
@@ -114,10 +115,20 @@ function App() {
             <StickyContainer style={{ width: "100%", height: "auto" }}>
               <Tabs defaultActiveKey="1" renderTabBar={renderTabBar}>
                 <TabPane tab="All Songs" key="1" style={{ height: "auto" }}>
-                  <Song list={data} onPlay={showNowPlaying} />
+                  <Song
+                    list={data}
+                    onPlay={showNowPlaying}
+                    refresh={initData}
+                    setter={setData}
+                  />
                 </TabPane>
                 <TabPane tab="Five Stars" key="2" style={{ height: "auto" }}>
-                  <Song list={fiveStars} onPlay={showNowPlaying} />
+                  <Song
+                    list={fiveStars}
+                    onPlay={showNowPlaying}
+                    refresh={initData}
+                    setter={setData}
+                  />
                 </TabPane>
               </Tabs>
             </StickyContainer>

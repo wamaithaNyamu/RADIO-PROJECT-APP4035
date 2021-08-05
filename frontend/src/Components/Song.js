@@ -23,7 +23,7 @@ const DescriptionItem = ({ title, content }) => (
   </div>
 );
 
-const Song = ({ list, onPlay }) => {
+const Song = ({ list, onPlay, refresh, setter }) => {
   const [visible, setVisible] = useState(false);
   const [song, setSong] = useState();
   const [title, setTitle] = useState();
@@ -61,6 +61,7 @@ const Song = ({ list, onPlay }) => {
     const { data } = await put(`/update/${song._id}`, payload);
     if (data.success === true) {
       setVisible(false);
+      refresh(setter);
     }
   };
   const onDelete = async (item) => {
@@ -68,11 +69,11 @@ const Song = ({ list, onPlay }) => {
     const { data } = await remove(`/delete/${payload}`);
     if (data.success === true) {
       console.log("deleted");
+      refresh(setter);
     }
   };
   return (
     <>
-
       <List
         bordered
         style={{ width: "90%" }}
