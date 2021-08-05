@@ -70,6 +70,33 @@ exports.update = async (req, res, next) => {
   }
 };
 
+// @desc   Update a song rating
+// @route  PUT /api/songs/rating/:id
+// @access Public
+exports.rateSong = async (req, res, next) => {
+  try {
+    console.log('rating co,ponent',req.body)
+    const id = req.params.id;
+    const song = await Song.findByIdAndUpdate(id, {rating:req.body.newRating}, {
+      new: true,
+      runValidators: true,
+    });
+    console.log('updated song',song)
+    res.status(200).json({
+      success: true,
+      data: song,
+    });
+  } catch (err) {
+    //log to console
+    console.log(err);
+    // bad request
+    res.status(400).json({
+      success: false,
+      error: err,
+    });
+  }
+};
+
 // @desc   delete a song
 // @route  DELETE /api/songs/:id
 // @access Public

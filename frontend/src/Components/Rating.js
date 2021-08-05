@@ -1,10 +1,10 @@
 import { Select, Button, Row} from 'antd';
 import {useEffect, useState} from "react";
-import axios from "axios";
 import { Rate } from 'antd';
+import { get, post,put } from "../utils/requests";
 const { Option  } = Select;
 
-const RateSong = (id) => {
+const RateSong = ({id}) => {
 
     const [rate, setRate] = useState(1)
     const [rated,setRated] = useState(false)
@@ -15,8 +15,12 @@ const RateSong = (id) => {
         setRate(parseInt(newRating));
 
         setRated(true)
+        console.log('newssss',newRating)
 
-        await axios.post(`api/rate/${id}`, {newRating})
+        const { data } = await put(`/update/rating/${id}`, {newRating} );
+        if (data.success === true) {
+           console.log('success')
+        }
 
     }
 
