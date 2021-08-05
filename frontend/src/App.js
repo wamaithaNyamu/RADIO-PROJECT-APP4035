@@ -47,7 +47,7 @@ function App() {
 
   useEffect(() => {
     initData(setData);
-    setPlaying(data ? data[0] : '' )
+    setPlaying(data ? data[0] : "");
   }, []);
 
   const showModal = () => {
@@ -93,6 +93,7 @@ function App() {
     return (
       <Spin
         tip="Loading"
+        size="large"
         style={{ marginTop: "25%", marginLeft: "45%" }}
       ></Spin>
     );
