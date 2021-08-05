@@ -15,6 +15,7 @@ import { Footer } from "antd/lib/layout/layout";
 import { useState } from "react";
 import { put, remove } from "../utils/requests";
 import Stars from "./Stars";
+import Rating from "./Rating";
 const DescriptionItem = ({ title, content }) => (
   <div className="site-description-item-profile-wrapper">
     <p className="site-description-item-profile-p-label">{title}:</p>
@@ -118,7 +119,7 @@ const Song = ({ list, onPlay }) => {
                 }
                 description={<>
                   <span>{item.artist}</span> <br/>
-                  <span><Stars value={item.rating}/></span>
+                  <span>{item.rating === 0 ? <Rating id={item._id}/> : <Stars value={item.rating}/>}</span>
                 </>}
 
               />

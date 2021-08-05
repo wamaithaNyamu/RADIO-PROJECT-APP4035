@@ -4,6 +4,7 @@ import SortRating from "./Components/SortRating";
 import Playing from "./Components/Playing";
 import Song from "./Components/Song";
 import "antd/dist/antd.css";
+import './App.css'
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import { Button, Row, Space, Modal, Steps, Input } from "antd";
 import {
