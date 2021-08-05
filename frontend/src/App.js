@@ -5,7 +5,8 @@ import Playing from "./Components/Playing";
 import Song from "./Components/Song";
 import "antd/dist/antd.css";
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
-import { Button, Row, Space, Modal, Steps, Input } from "antd";
+import { Button, Row, Space, Modal, Steps, Input, Tabs } from "antd";
+import { StickyContainer, Sticky } from "react-sticky";
 import {
   FieldNumberOutlined,
   FireOutlined,
@@ -16,81 +17,20 @@ import {
 import { useEffect, useState } from "react";
 import { get, post } from "./utils/requests";
 const { Step } = Steps;
+const { TabPane } = Tabs;
 
-const datab = [
-  {
-    rating: 0,
-    _id: "610a7e2e656f948cc798ff11",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610ae9f41d166ea3444cccc2",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aea93481f4f2dda003e4c",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aea97481f4f2dda003e4e",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aea9a481f4f2dda003e50",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aea9d481f4f2dda003e52",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aea9f481f4f2dda003e54",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-  {
-    rating: 0,
-    _id: "610aeaa2481f4f2dda003e56",
-    title: "Hakuna Matata",
-    artist: "idk",
-    year: 2020,
-    art: "google.com",
-    __v: 0,
-  },
-];
+const renderTabBar = (props, DefaultTabBar) => (
+  <Sticky bottomOffset={80}>
+    {({ style }) => (
+      <DefaultTabBar
+        {...props}
+        className="site-custom-tab-bar"
+        style={{ ...style }}
+      />
+    )}
+  </Sticky>
+);
+
 const initData = async (setter) => {
   const { data } = await get("/list");
   setter(data.data);
@@ -148,6 +88,8 @@ function App() {
   const handleYear = (e) => {
     setYear(e.target.value);
   };
+
+  const fiveStars = data?.filter((el) => el.rating === 5);
   return (
     <Layout>
       <Header></Header>
@@ -162,7 +104,16 @@ function App() {
             </Button>
           </Row>
           <Row>
-            <Song list={data} onPlay={showNowPlaying} />
+            <StickyContainer style={{ width: "100%", height: "auto" }}>
+              <Tabs defaultActiveKey="1" renderTabBar={renderTabBar}>
+                <TabPane tab="All Songs" key="1" style={{ height: "auto" }}>
+                  <Song list={data} onPlay={showNowPlaying} />
+                </TabPane>
+                <TabPane tab="Five Stars" key="2" style={{ height: "auto" }}>
+                  <Song list={fiveStars} onPlay={showNowPlaying} />
+                </TabPane>
+              </Tabs>
+            </StickyContainer>
           </Row>
         </Space>
         <Modal
