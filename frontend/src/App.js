@@ -1,9 +1,9 @@
 import Playing from "./Components/Playing";
 import Song from "./Components/Song";
 import "antd/dist/antd.css";
-import './App.css'
+import "./App.css";
 import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
-import { Button, Row, Space, Modal, Steps, Input, Tabs } from "antd";
+import { Button, Row, Space, Modal, Steps, Input, Tabs, Spin } from "antd";
 import { StickyContainer, Sticky } from "react-sticky";
 import {
   FieldNumberOutlined,
@@ -89,6 +89,13 @@ function App() {
   };
 
   const fiveStars = data?.filter((el) => el.rating === 5);
+  if (!data)
+    return (
+      <Spin
+        tip="Loading"
+        style={{ marginTop: "25%", marginLeft: "45%" }}
+      ></Spin>
+    );
   return (
     <Layout>
       <Header></Header>

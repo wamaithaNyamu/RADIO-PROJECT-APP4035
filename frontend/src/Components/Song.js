@@ -118,14 +118,21 @@ const Song = ({ list, onPlay }) => {
                     {item.title}
                   </a>
                 }
-                description={<>
-                  <span>{item.artist}</span> <br/>
-                  <span>{item.rating === 0 ? <Rating id={item._id}/> : <Stars value={item.rating}/>}</span>
-                </>}
-
+                description={
+                  <>
+                    <span>{item.artist}</span> <br />
+                    <span>
+                      {item.rating === 0 ? (
+                        <Rating id={item._id} />
+                      ) : (
+                        <Stars value={item.rating} />
+                      )}
+                    </span>
+                  </>
+                }
               />
-              <div style={{ marginLeft: "20px" }}>{item.genre}</div>
-              <div style={{ marginLeft: "20px" }}>{item.year}</div>
+              <div>{item.genre}</div>
+              <div style={{ marginLeft: "100px" }}>{item.year}</div>
             </Skeleton>
           </List.Item>
         )}
