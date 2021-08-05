@@ -124,7 +124,7 @@ const Song = ({ list, onPlay, refresh, setter }) => {
                     <span>{item.artist}</span> <br />
                     <span>
                       {item.rating === 0 ? (
-                        <Rating id={item._id} />
+                        <Rating id={item._id} ref={refresh} set={setter} />
                       ) : (
                         <Stars value={item.rating} />
                       )}
