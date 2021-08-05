@@ -15,11 +15,11 @@ const RateSong = ({id}) => {
         setRate(parseInt(newRating));
 
         setRated(true)
-        console.log('newssss',newRating)
+
 
         const { data } = await put(`/update/rating/${id}`, {newRating} );
         if (data.success === true) {
-           console.log('success')
+           console.log('success',data)
         }
 
     }
