@@ -94,7 +94,7 @@ function App() {
       <Spin
         tip="Loading"
         size="large"
-        style={{ marginTop: "25%", marginLeft: "45%" }}
+        style={{ marginTop: "25%", marginLeft: "47%" }}
       ></Spin>
     );
   return (
