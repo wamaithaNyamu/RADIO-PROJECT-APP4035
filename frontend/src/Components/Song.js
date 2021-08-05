@@ -76,12 +76,13 @@ const Song = ({ list, onPlay }) => {
                 }
                 description={item.artist}
               />
-              <div>{item.year}</div>
+              <div style={{ marginLeft: "20px" }}>{item.genre}</div>
+              <div style={{ marginLeft: "20px" }}>{item.year}</div>
             </Skeleton>
           </List.Item>
         )}
       />
-      <Drawer width={300} placement="right" closable={true} visible={visible}>
+      <Drawer width={300} placement="right" closable={false} visible={visible}>
         <p
           className="site-description-item-profile-p"
           style={{ marginBottom: 24 }}
@@ -103,7 +104,11 @@ const Song = ({ list, onPlay }) => {
               placeholder={song?.artist}
             />
             <DescriptionItem title="Genre" />
-            <Input type="text" style={{ width: "100%" }} placeholder="Hiphop" />
+            <Input
+              type="text"
+              style={{ width: "100%" }}
+              placeholder={song?.genre}
+            />
             <DescriptionItem title="Year" />
             <Input
               type="number"

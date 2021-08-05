@@ -14,9 +14,7 @@ const Playing = ({ song }) => {
         <Descriptions title="Now Playing" layout="vertical">
           <Descriptions.Item label="Title">{song?.title}</Descriptions.Item>
           <Descriptions.Item label="Artist">{song?.artist}</Descriptions.Item>
-          <Descriptions.Item label="Genre">
-            {song ? "Hiphop" : ""}
-          </Descriptions.Item>
+          <Descriptions.Item label="Genre">{song?.genre}</Descriptions.Item>
           <Descriptions.Item label="Year">{song?.year}</Descriptions.Item>
         </Descriptions>
       </Col>
