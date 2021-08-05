@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { Footer } from "antd/lib/layout/layout";
 import { useState } from "react";
+import { put, remove } from "../utils/requests";
 
 const DescriptionItem = ({ title, content }) => (
   <div className="site-description-item-profile-wrapper">
@@ -24,6 +25,10 @@ const DescriptionItem = ({ title, content }) => (
 const Song = ({ list, onPlay }) => {
   const [visible, setVisible] = useState(false);
   const [song, setSong] = useState();
+  const [title, setTitle] = useState();
+  const [artist, setArtist] = useState();
+  const [year, setYear] = useState();
+  const [genre, setGenre] = useState();
 
   const showDrawer = (item) => {
     setSong(item);
@@ -32,6 +37,37 @@ const Song = ({ list, onPlay }) => {
 
   const onClose = () => {
     setVisible(false);
+  };
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleArtist = (e) => {
+    setArtist(e.target.value);
+  };
+  const handleGenre = (e) => {
+    setGenre(e.target.value);
+  };
+  const handleYear = (e) => {
+    setYear(e.target.value);
+  };
+  const onSave = async () => {
+    let payload = {
+      title,
+      artist,
+      genre,
+      year,
+    };
+    const { data } = await put(`/update/${song._id}`, payload);
+    if (data.success === true) {
+      setVisible(false);
+    }
+  };
+  const onDelete = async (item) => {
+    let payload = item._id;
+    const { data } = await remove(`/delete/${payload}`);
+    if (data.success === true) {
+      console.log("deleted");
+    }
   };
   return (
     <>
@@ -53,7 +89,13 @@ const Song = ({ list, onPlay }) => {
               >
                 edit
               </a>,
-              <a key="list-more">
+              <a
+                key="list-more"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onDelete(item);
+                }}
+              >
                 <DeleteOutlined />
               </a>,
             ]}
@@ -96,30 +138,42 @@ const Song = ({ list, onPlay }) => {
               type="text"
               style={{ width: "100%" }}
               placeholder={song?.title}
+              onChange={handleTitle}
             />
             <DescriptionItem title="Artist" />
             <Input
               type="text"
               style={{ width: "100%" }}
               placeholder={song?.artist}
+              onChange={handleArtist}
             />
             <DescriptionItem title="Genre" />
             <Input
               type="text"
               style={{ width: "100%" }}
               placeholder={song?.genre}
+              onChange={handleGenre}
             />
             <DescriptionItem title="Year" />
             <Input
               type="number"
               style={{ width: "100%" }}
               placeholder={song?.year}
+              onChange={handleYear}
             />
             <Divider />
           </Col>
           <Footer>
             <Space>
-              <Button type="primary">Save</Button>
+              {title || artist || genre || year ? (
+                <Button type="primary" onClick={onSave}>
+                  Save
+                </Button>
+              ) : (
+                <Button type="primary" disabled>
+                  Save
+                </Button>
+              )}
               <Button type="secondary" onClick={onClose}>
                 Cancel
               </Button>

@@ -16,4 +16,18 @@ const post = async (path, data) =>
     },
   });
 
-export { get, post };
+const put = async (path, data) =>
+  await axios.put(`${API}${path}`, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+const remove = async (path, data) =>
+  await axios.delete(`${API}${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+export { get, post, put, remove };

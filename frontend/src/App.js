@@ -8,15 +8,16 @@ import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
 import { Button, Row, Space, Modal, Steps, Input } from "antd";
 import {
   FieldNumberOutlined,
+  FireOutlined,
   PlusOutlined,
   SoundOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { get, post } from "./utils/requests";
 const { Step } = Steps;
 
-const data = [
+const datab = [
   {
     rating: 0,
     _id: "610a7e2e656f948cc798ff11",
@@ -90,6 +91,10 @@ const data = [
     __v: 0,
   },
 ];
+const initData = async (setter) => {
+  const { data } = await get("/list");
+  setter(data.data);
+};
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -99,20 +104,30 @@ function App() {
   const [artist, setArtist] = useState();
   const [year, setYear] = useState();
   const [index, setIndex] = useState(0);
+  const [data, setData] = useState();
+  const [genre, setGenre] = useState();
 
-  // const data = get("/list");
-  // console.log(data);
+  useEffect(() => {
+    initData(setData);
+  }, []);
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setConfirmLoading(true);
-    setTimeout(() => {
+    let payload = {
+      title,
+      artist,
+      genre,
+      year,
+    };
+    const { data } = await post("/create", payload);
+    if (data.success === true) {
       setVisible(false);
       setConfirmLoading(false);
-    }, 2000);
+    }
   };
   const handleCancel = () => {
     console.log("Clicked cancel button");
@@ -121,14 +136,17 @@ function App() {
   const showNowPlaying = (song) => {
     setPlaying(song);
   };
-  const handleTitle = (entry) => {
-    setTitle(entry);
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
   };
-  const handleArtist = (entry) => {
-    setArtist(entry);
+  const handleArtist = (e) => {
+    setArtist(e.target.value);
   };
-  const handleYear = (entry) => {
-    setYear(entry);
+  const handleGenre = (e) => {
+    setGenre(e.target.value);
+  };
+  const handleYear = (e) => {
+    setYear(e.target.value);
   };
   return (
     <Layout>
@@ -159,6 +177,7 @@ function App() {
               <Steps size="small" current={index}>
                 <Step title="Song Title" />
                 <Step title="Artist Name" />
+                <Step title="Genre" />
                 <Step title="Year" />
               </Steps>
             </Row>
@@ -182,12 +201,21 @@ function App() {
                 }}
               />
               <Input
+                placeholder="Genre"
+                prefix={<FireOutlined />}
+                type="text"
+                onChange={handleGenre}
+                onBlur={() => {
+                  if (genre) setIndex(3);
+                }}
+              />
+              <Input
                 placeholder="Year Released"
                 prefix={<FieldNumberOutlined />}
                 type="number"
                 onChange={handleYear}
                 onBlur={() => {
-                  if (!year) setIndex(2);
+                  if (!year) setIndex(4);
                 }}
               />
             </Row>
